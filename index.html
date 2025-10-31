@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>はうる。</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="overlay">
+    <!-- ロゴ -->
+    <img src="images/IMG_5675.JPG" alt="はうる。" class="logo" />
+
+    <!-- SNSリンク -->
+    <div class="social-links">
+      <a href="https://www.instagram.com/howl__band?igsh=cThrcm13b3Nzd2Jj&utm_source=qr" target="_blank">
+        <img src="images/icons/instagram.png" alt="Instagram" />
+      </a>
+      <a href="https://x.com/howl_band_?s=21&t=5fBBTy4WffrXqCYPEC2Odg" target="_blank">
+        <img src="images/icons/x.png" alt="X" />
+      </a>
+      <a href="https://www.tiktok.com/@howl__band" target="_blank">
+        <img src="images/icons/tiktok.png" alt="TikTok" />
+      </a>
+      <a href="https://eggs.mu/share?target=artist&artistName=howl_band" target="_blank">
+        <img src="images/icons/eggs.png" alt="Eggs" />
+      </a>
+      <a href="https://forms.gle/EEq6gG3FkRRKQUR18" target="_blank">
+        <img src="images/icons/ticket.png" alt="チケットフォーム" />
+      </a>
+    </div>
+
+    <!-- トピックス -->
+    <div class="topics">
+      <h2>LIVE INFO</h2>
+      <p class="today"></p>
+
+      <div class="live-card" id="live1" onclick="showLive('live1')">
+        <p>2025.10.29（水） 新栄RAD SEVEN</p>
+        <span class="diff" id="diff1"></span>
+      </div>
+
+      <div class="live-card" id="live2" onclick="showLive('live2')">
+        <p>2025.10.31（金） 今池GROW</p>
+        <span class="diff" id="diff2"></span>
+      </div>
+
+      <div class="live-card" id="live3" onclick="showLive('live3')">
+        <p>2025.11.06（木） 栄RAD</p>
+        <span class="diff" id="diff3"></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- モーダル（ライブ画像拡大） -->
+  <div class="live-modal" id="liveModal" onclick="closeLive()">
+    <img id="modalImg" src="" alt="ライブ画像" />
+  </div>
+
+  <script>
+    // ===== 日付処理 =====
+    const today = new Date();
+    document.querySelector(".today").textContent =
+      `📅 本日：${today.getFullYear()}/${today.getMonth() + 1}/${today.getDate()}`;
+
+    const lives = [
+      { id: "live1", date: "2025-10-29", diffId: "diff1", img: "images/lives/IMG_5678.JPG" },
+      { id: "live2", date: "2025-10-31", diffId: "diff2", img: "images/lives/IMG_5679.JPG" },
+      { id: "live3", date: "2025-11-06", diffId: "diff3", img: "images/lives/IMG_5680.JPG" },
+    ];
+
+    lives.forEach((live) => {
+      const eventDate = new Date(live.date);
+      const diffDays = Math.ceil((eventDate - today) / (1000 * 60 * 60 * 24));
+      const diffEl = document.getElementById(live.diffId);
+      const cardEl = document.getElementById(live.id);
+
+      if (diffDays > 0) {
+        diffEl.textContent = `あと${diffDays}日`;
+        diffEl.style.color = "red";
+      } else if (diffDays === 0) {
+        diffEl.textContent = "当日！";
+        diffEl.style.color = "red";
+        diffEl.style.fontWeight = "bold";
+      } else {
+        diffEl.textContent = "終了";
+        diffEl.style.color = "gray";
+        cardEl.classList.add("ended");
+        cardEl.onclick = null;
+      }
+    });
+
+    // ===== モーダル処理 =====
+    function showLive(id) {
+      const live = lives.find((l) => l.id === id);
+      if (!live) return;
+      const modal = document.getElementById("liveModal");
+      const img = document.getElementById("modalImg");
+      img.src = live.img;
+      modal.style.display = "flex";
+    }
+
+    function closeLive() {
+      document.getElementById("liveModal").style.display = "none";
+    }
+  </script>
+</body>
+</html>

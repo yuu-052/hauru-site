@@ -54,6 +54,20 @@
         <p>2025.01.13（月・祝）  堺tick-tuck</p>
         <span class="diff" id="diff4"></span>
     </div>
+    <div class="live-card" id="live5" onclick="showLive('live5')">
+        <p>2025.12.27（火）  新栄栄RADmini</p>
+        <p>ADV/DOOR ¥2200/¥2700(+1D)</p>
+        <p>OPEN/START TBA</p>
+        <small>※詳細はタップ</small>
+        <span class="diff" id="diff5"></span>
+    </div>
+    <div class="live-card" id="live6" onclick="showLive('live6')">
+        <p>2025.01.27（火）  栄R.A.D</p>
+        <p>ADV/DOOR ¥2000/¥2500</p>
+        <p>OPEN/START 18:00/18:30</p>
+        <small>※詳細はタップ</small>
+        <span class="diff" id="diff6"></span>
+    </div>    
   </div>
 
   <!-- モーダル（ライブ画像拡大） -->
@@ -72,6 +86,8 @@
       { id: "live2", date: "2025-10-31", diffId: "diff2", img: "images/lives/IMG_5679.JPG" },
       { id: "live3", date: "2025-11-06", diffId: "diff3", img: "images/lives/IMG_5680.JPG" },
       { id: "live4", date: "2026-01-13", diffId: "diff4", img: "images/lives/IMG_5840.JPG" },
+      { id: "live5", date: "2025-12-27", diffId: "diff5", img: "images/lives/IMG_5996.JPG" },
+      { id: "live6", date: "2026-01-27", diffId: "diff6", img: "images/lives/IMG_5997.JPG" },
     ];
     lives.forEach((live) => {
       const eventDate = new Date(live.date);

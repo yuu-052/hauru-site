@@ -35,39 +35,92 @@
       <h2>LIVE INFO</h2>
       <p class="today"></p>
 
-      <div class="live-card" id="live1" onclick="showLive('live1')">
+      <!-- ここからライブカード -->
+      <div
+        class="live-card"
+        id="live1"
+        data-date="2025-10-29"
+        data-img="images/lives/IMG_5678.JPG"
+        onclick="showLive('live1')"
+      >
         <p>2025.10.29（水） 新栄RAD SEVEN</p>
-        <span class="diff" id="diff1"></span>
+        <small>ADV/DOOR TBA</small>
+        <small>OPEN/START TBA</small>
+        <small>※詳細はタップ</small>
+        <span class="diff"></span>
       </div>
 
-      <div class="live-card" id="live2" onclick="showLive('live2')">
+      <div
+        class="live-card"
+        id="live2"
+        data-date="2025-10-31"
+        data-img="images/lives/IMG_5679.JPG"
+        onclick="showLive('live2')"
+      >
         <p>2025.10.31（金） 今池GROW</p>
-        <span class="diff" id="diff2"></span>
+        <small>ADV/DOOR TBA</small>
+        <small>OPEN/START TBA</small>
+        <small>※詳細はタップ</small>
+        <span class="diff"></span>
       </div>
 
-      <div class="live-card" id="live3" onclick="showLive('live3')">
+      <div
+        class="live-card"
+        id="live3"
+        data-date="2025-11-06"
+        data-img="images/lives/IMG_5680.JPG"
+        onclick="showLive('live3')"
+      >
         <p>2025.11.06（木） 栄RAD</p>
-        <span class="diff" id="diff3"></span>
+        <small>ADV/DOOR TBA</small>
+        <small>OPEN/START TBA</small>
+        <small>※詳細はタップ</small>
+        <span class="diff"></span>
       </div>
 
-      <div class="live-card" id="live4" onclick="showLive('live4')">
-        <p>2025.01.13（月・祝）  堺tick-tuck</p>
-        <span class="diff" id="diff4"></span>
-    </div>
-    <div class="live-card" id="live5" onclick="showLive('live5')">
-        <p>2025.12.27（火）  新栄栄RADmini</p>
+      <div
+        class="live-card"
+        id="live4"
+        data-date="2025-01-13"
+        data-img="images/lives/IMG_5840.JPG"
+        onclick="showLive('live4')"
+      >
+        <p>2025.01.13（月・祝） 堺tick-tuck</p>
+        <small>ADV/DOOR TBA</small>
+        <small>OPEN/START TBA</small>
+        <small>※詳細はタップ</small>
+        <span class="diff"></span>
+      </div>
+
+      <div
+        class="live-card"
+        id="live5"
+        data-date="2025-12-27"
+        data-img="images/lives/IMG_5996.JPG"
+        onclick="showLive('live5')"
+      >
+        <p>2025.12.27（火） 新栄栄RADmini</p>
         <small>ADV/DOOR ¥2200/¥2700(+1D)</small>
         <small>OPEN/START TBA</small>
         <small>※詳細はタップ</small>
-        <span class="diff" id="diff5"></span>
-    </div>
-    <div class="live-card" id="live6" onclick="showLive('live6')">
-        <p>2025.01.27（火）  栄R.A.D</p>
+        <span class="diff"></span>
+      </div>
+
+      <div
+        class="live-card"
+        id="live6"
+        data-date="2025-01-27"
+        data-img="images/lives/IMG_5997.JPG"
+        onclick="showLive('live6')"
+      >
+        <p>2025.01.27（火） 栄R.A.D</p>
         <small>ADV/DOOR ¥2000/¥2500</small>
         <small>OPEN/START 18:00/18:30</small>
         <small>※詳細はタップ</small>
-        <span class="diff" id="diff6"></span>
-    </div>    
+        <span class="diff"></span>
+      </div>
+      <!-- ライブカードここまで -->
+    </div>
   </div>
 
   <!-- モーダル（ライブ画像拡大） -->
@@ -76,52 +129,64 @@
   </div>
 
   <script>
-    // ===== 日付処理 =====
-    const today = new Date();
-    document.querySelector(".today").textContent =
-      `📅 本日：${today.getFullYear()}/${today.getMonth() + 1}/${today.getDate()}`;
+    document.addEventListener('DOMContentLoaded', () => {
+      // ===== 本日の日付表示 =====
+      const today = new Date();
+      const todayText = `📅 本日：${today.getFullYear()}/${today.getMonth() + 1}/${today.getDate()}`;
+      document.querySelector('.today').textContent = todayText;
 
-    const lives = [
-      { id: "live1", date: "2025-10-29", diffId: "diff1", img: "images/lives/IMG_5678.JPG" },
-      { id: "live2", date: "2025-10-31", diffId: "diff2", img: "images/lives/IMG_5679.JPG" },
-      { id: "live3", date: "2025-11-06", diffId: "diff3", img: "images/lives/IMG_5680.JPG" },
-      { id: "live4", date: "2026-01-13", diffId: "diff4", img: "images/lives/IMG_5840.JPG" },
-      { id: "live5", date: "2025-12-27", diffId: "diff5", img: "images/lives/IMG_5996.JPG" },
-      { id: "live6", date: "2026-01-27", diffId: "diff6", img: "images/lives/IMG_5997.JPG" },
-    ];
-    lives.forEach((live) => {
-      const eventDate = new Date(live.date);
-      const diffDays = Math.ceil((eventDate - today) / (1000 * 60 * 60 * 24));
-      const diffEl = document.getElementById(live.diffId);
-      const cardEl = document.getElementById(live.id);
+      // ===== ライブカードを日付順にソート =====
+      const topics = document.querySelector('.topics');
+      const cards = Array.from(document.querySelectorAll('.live-card'));
 
-      if (diffDays > 0) {
-        diffEl.textContent = `あと${diffDays}日`;
-        diffEl.style.color = "red";
-      } else if (diffDays === 0) {
-        diffEl.textContent = "当日！";
-        diffEl.style.color = "red";
-        diffEl.style.fontWeight = "bold";
-      } else {
-        diffEl.textContent = "終了";
-        diffEl.style.color = "gray";
-        cardEl.classList.add("ended");
-        cardEl.onclick = null;
-      }
+      // data-date（YYYY-MM-DD）で昇順ソート
+      cards.sort((a, b) => a.dataset.date.localeCompare(b.dataset.date));
+
+      // 並び替えた順にDOMに挿し直す
+      cards.forEach((card) => topics.appendChild(card));
+
+      // ===== 残り日数の表示 & 終了処理 =====
+      cards.forEach((card) => {
+        const dateStr = card.dataset.date;
+        if (!dateStr) return;
+
+        const eventDate = new Date(dateStr);
+        const diffDays = Math.ceil((eventDate - today) / (1000 * 60 * 60 * 24));
+        const diffEl = card.querySelector('.diff');
+        if (!diffEl) return;
+
+        if (diffDays > 0) {
+          diffEl.textContent = `あと${diffDays}日`;
+          diffEl.style.color = 'red';
+        } else if (diffDays === 0) {
+          diffEl.textContent = '当日！';
+          diffEl.style.color = 'red';
+          diffEl.style.fontWeight = 'bold';
+        } else {
+          diffEl.textContent = '終了';
+          diffEl.style.color = 'gray';
+          card.classList.add('ended');
+          card.removeAttribute('onclick'); // 終了したライブはタップ無効
+        }
+      });
     });
 
     // ===== モーダル処理 =====
     function showLive(id) {
-      const live = lives.find((l) => l.id === id);
-      if (!live) return;
-      const modal = document.getElementById("liveModal");
-      const img = document.getElementById("modalImg");
-      img.src = live.img;
-      modal.style.display = "flex";
+      const card = document.getElementById(id);
+      if (!card) return;
+
+      const imgPath = card.dataset.img;
+      if (!imgPath) return;
+
+      const modal = document.getElementById('liveModal');
+      const img = document.getElementById('modalImg');
+      img.src = imgPath;
+      modal.style.display = 'flex';
     }
 
     function closeLive() {
-      document.getElementById("liveModal").style.display = "none";
+      document.getElementById('liveModal').style.display = 'none';
     }
   </script>
 </body>
